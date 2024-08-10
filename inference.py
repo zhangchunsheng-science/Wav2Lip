@@ -76,7 +76,8 @@ def face_detect(images):
 		try:
 			for i in tqdm(range(0, len(images), batch_size)):
 				predictions.extend(detector.get_detections_for_batch(np.array(images[i:i + batch_size])))
-		except RuntimeError:
+		except RuntimeError as e:
+			print('face detect runtime error: {}'.format(e))
 			if batch_size == 1: 
 				raise RuntimeError('Image too big to run face detection on GPU. Please use the --resize_factor argument')
 			batch_size //= 2
